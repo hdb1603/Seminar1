@@ -1,0 +1,171 @@
+library(bnlearn)
+library(Rgraphviz)
+dag2 = empty.graph(nodes=c("N1","N2","N3","N4","N5","N6","N7","N8","N9","N10",
+                           "N11","N12","N13","N14","N15","N16","N17","N18","N19","N20",
+                           "N21","N22","N23","N24","N25","N26","N27","N28","N29","N30",
+                           "N31","N32","N33","N34"));
+
+
+arc.set<- matrix(c("N5", "N8","N6", "N8","N1", "N9","N2", "N9","N1", "N10","N3", "N10","N1","N11",
+                   "N4","N11","N1","N12","N11","N12","N1","N13","N1","N14","N1","N15","N11","N15",
+                   "N14","N15","N1","N16","N1","N17","N14","N17","N1","N18","N11","N18","N14","N18",
+                   "N11","N19","N15","N20","N15","N21","N18","N21","N13","N22","N19","N22",
+                   "N10","N23","N20","N23","N22","N23","N13","N24",
+                   "N19","N24","N19","N25","N17","N26","N24","N26","N27","N26",
+                   "N1","N27","N26","N28","N26","N29","N9","N30","N11","N30",
+                   "N28","N30","N8","N31","N30","N31","N7","N32",
+                   "N29","N33","N31","N33","N32","N34","N33","N34"),byrow = TRUE, ncol = 2,dimnames = list(NULL, c("from", "to")))
+arcs(dag2) = arc.set
+graphviz.plot(dag2, layout = "dot")
+
+N1.lv<-c("Hits","Does_not_hits")
+
+N2.lv<-c("Able","Disable")
+
+N3.lv<-c("Able","Disable")
+
+N4.lv<-c("Bankrupt","Solvent")
+
+N5.lv<-c("True","False")
+
+N6.lv<-c("True","False")
+
+N7.lv<-c("Occured","Not_Occured")
+
+N8.lv<-c("Multiple","Single")
+
+N9.lv<-c("Functioning","Damaged")
+
+N10.lv<-c("Damaged","Not_damaged")
+
+N11.lv<-c("Operational","Down")
+
+N12.lv<-c("Available","Not_Available")
+
+N13.lv<-c("Passable","Impassable")
+
+N14.lv<-c("Operational","Down")
+
+N15.lv<-c("Operational","Down")
+
+N16.lv<-c("Prevail","False")
+
+N17.lv<-c("Functional","Down")
+
+N18.lv<-c("Closed","Open")
+
+N19.lv<-c("Depleted","Not_Depleted")
+
+N20.lv<-c("Accessible","Not_accessible")
+
+N21.lv<-c("True","False")
+
+N22.lv<-c("Functional","Failed")
+
+N23.lv<-c("False","True")
+
+N24.lv<-c("False","True")
+
+N25.lv<-c("No","Yes")
+
+N26.lv<-c("False","True")
+
+N27.lv<-c("True","False")
+
+N28.lv<-c("True","False")
+
+N29.lv<-c("True","False")
+
+N30.lv<-c("True","False")
+
+N31.lv<-c("True","False")
+
+N32.lv<-c("True","False")
+
+N33.lv<-c("Shortage","Sufficient")
+
+N34.lv<-c("Disrupted","Not_Disrupted")
+
+N1.prob<- array(c(0.0072,0.9928), dim = c(2,1), dimnames = list(N1 = N1.lv))
+
+N2.prob<-  array(c(0.80,0.20), dim = c(2,1), dimnames = list(N2 = N2.lv))
+
+N3.prob<-  array(c(0.60,0.40), dim = c(2,1), dimnames = list(N3 = N3.lv))
+
+N4.prob<-  array(c(0.95,0.05), dim = c(2,1), dimnames = list(N4 = N4.lv))
+
+N5.prob<-  array(c(0.50,0.50), dim = c(2,1), dimnames = list(N5 = N5.lv))
+
+N6.prob<-  array(c(0.50,0.50), dim = c(2,1), dimnames = list(N6 = N6.lv))
+
+N7.prob<-  array(c(0.13,0.87), dim = c(2,1), dimnames = list(N7 = N7.lv))
+
+N8.prob<- array(c(0.01,0.99,0.005,0.995,0.01,0.99,0.001,0.999),dim=c(2,2,2),dimnames=list(N8=N8.lv,N6=N6.lv,N5=N5.lv))
+
+N9.prob<-array(c(0.1,0.9,0.995,0.005,0.005,0.995,0.9,0.1),dim=c(2,2,2),dimnames=list(N9=N9.lv,N1=N1.lv,N2=N2.lv))
+
+N10.prob<-array(c(0.2,0.8,0.002,0.998,0.998,0.002,0.1,0.9),dim=c(2,2,2),dimnames=list(N10=N10.lv,N1=N1.lv,N3=N3.lv))
+
+N11.prob<-array(c(0.05,0.95,0.95,0.05,0.5,0.5,1,0),dim=c(2,2,2),dimnames=list(N11=N11.lv,N1=N1.lv,N4=N4.lv))
+
+N12.prob<-array(c(0.75,0.25,0.95,0.05,0.002,0.998,0.1,0.9),dim=c(2,2,2),dimnames=list(N12=N12.lv,N1=N1.lv,N11=N11.lv))
+
+N13.prob<-array(c(0.05,0.95,0.992,0.008),dim=c(2,2),dimnames=list(N13=N13.lv,N1=N1.lv))
+
+N14.prob<-array(c(0.05,0.95,0.99,0.01),dim=c(2,2),dimnames=list(N14=N14.lv,N1=N1.lv))
+
+N15.prob<-array(c(0.1,0.9,0.95,0.05,0.05,0.95,0.4,0.6,0.1,0.9,0.4,0.6,0.01,0.99,0.05,0.95),dim=c(2,2,2,2),dimnames=list(N15=N15.lv,N1=N1.lv,N11=N11.lv,N14=N14.lv))
+
+N16.prob<-array(c(0.1,0.9,0.2,0.8),dim=c(2,2),dimnames=list(N16=N16.lv,N1=N1.lv))
+
+N17.prob<-array(c(0.75,0.25,0.95,0.05,0.005,0.995,0.1,0.9),dim=c(2,2,2),dimnames=list(N17=N17.lv,N1=N1.lv,N14=N14.lv))
+
+N18.prob<-array(c(0.1,0.9,0.95,0.05,0.05,0.95,0.4,0.6,0.1,0.9,0.4,0.6,0,1,0.05,0.95),dim=c(2,2,2,2),dimnames=list(N18=N18.lv,N1=N1.lv,N11=N11.lv,N14=N14.lv))
+
+N19.prob<-array(c(0.05,0.95,0.99,0.01),dim=c(2,2),dimnames=list(N19=N19.lv,N11=N11.lv))
+
+N20.prob<-array(c(0.9,0.1,0.1,0.9),dim=c(2,2),dimnames=list(N20=N20.lv,N15=N15.lv))
+
+N21.prob<-array(c(0.1,0.9,0.04,0.96,0.96,0.04,0.6,0.4),dim=c(2,2,2),dimnames=list(N21=N21.lv,N15=N15.lv,N18=N18.lv))                
+
+N22.prob<-array(c(0.75,0.25,0.05,0.95,0.95,0.05,0.1,0.9),dim=c(2,2,2),dimnames=list(N22=N22.lv,N13=N13.lv,N19=N19.lv))
+
+N23.prob<-array(c(0.97,0.03,0.85,0.15,0.95,0.05,0.01,0.99,0.89,0.11,0.12,0.88,0.2,0.8,0.4,0.6),dim=c(2,2,2,2),dimnames=list(N23=N23.lv,N10=N10.lv,N22=N22.lv,N20=N20.lv))
+
+N24.prob<-array(c(0.75,0.25,0.05,0.95,0.95,0.05,0.1,0.9),dim=c(2,2,2),dimnames=list(N24=N24.lv,N13=N13.lv,N19=N19.lv))
+
+N25.prob<-array(c(0.05,0.95,0.99,0.01),dim=c(2,2),dimnames=list(N25=N25.lv,N19=N19.lv))
+
+N27.prob<-array(c(0.95,0.05,0.2,0.8),dim=c(2,2),dimnames=list(N27=N27.lv,N1=N1.lv))
+
+
+N26.prob<-array(c(0.97,0.03,0.85,0.15,0.95,0.05,0.01,0.99,0.89,0.11,0.12,0.88,0.2,0.8,0.4,0.6),dim=c(2,2,2,2),dimnames=list(N26=N26.lv,N17=N17.lv,N24=N24.lv,N27=N27.lv))
+N28.prob<-array(c(0.05,0.95,0.87,0.13),dim=c(2,2),dimnames=list(N28=N28.lv,N26=N26.lv))
+
+N29.prob<-array(c(0.05,0.95,0.87,0.13),dim=c(2,2),dimnames=list(N29=N28.lv,N26=N26.lv))
+
+N30.prob<-array(c(0.65,0.35,0.95,0.05,0.95,0.05,0.80,0.2,0.89,0.11,0.98,0.02,0.8,0.2,0.7,0.3),dim=c(2,2,2,2),dimnames=list(N30=N30.lv,N28=N28.lv,N11=N11.lv,N9=N9.lv))
+
+N31.prob<-array(c(0.9,0.1,0.02,0.98,0.81,0.19,0.55,0.45),dim=c(2,2,2),dimnames=list(N31=N31.lv,N30=N30.lv,N8=N8.lv))
+
+N32.prob<-array(c(0.9,0.1,0.22,0.78),dim=c(2,2),dimnames=list(N32=N32.lv,N7=N7.lv))
+
+N33.prob<-array(c(0.97,0.03,0.5,0.5,0.6,0.4,0.08,0.92),dim=c(2,2,2),dimnames=list(N33=N33.lv,N29=N29.lv,N31=N31.lv))
+
+N34.prob<-array(c(0.70,0.30,0.28,0.72,0.613,0.387,0.1,0.9),dim=c(2,2,2),dimnames=list(N34=N34.lv,N33=N33.lv,N32=N32.lv))
+
+cpt <- list(N1=N1.prob, N2=N2.prob,N3=N3.prob,N4=N4.prob,N5=N5.prob,N6=N6.prob,N7=N7.prob,N8=N8.prob,N9=N9.prob,
+            N10=N10.prob,N11=N11.prob,N12=N12.prob,N13=N13.prob,N14=N14.prob,N15=N15.prob,N16=N16.prob,N17=N17.prob,
+            N18=N18.prob,N19=N19.prob,N20=N20.prob,N21=N21.prob,N22=N22.prob,N23=N23.prob,N24=N24.prob,
+            N25=N25.prob,N26=N26.prob,N27=N27.prob,N28=N28.prob,N29=N29.prob,N30=N30.prob,
+            N31=N31.prob,N32=N32.prob,N33=N33.prob,N34=N34.prob)
+book1=Data_Final
+bn <- custom.fit(dag2, cpt)
+d=book1
+fix(d)
+
+d[,1:34]=lapply(d[,1:34],as.factor)
+bn.mle <- bn.fit(dag2, data = d, method = "mle")
+bn.bayes <- bn.fit(dag2, data = d, method = "bayes",iss=10)
+bn.bayes$N34
+bn.fit.barchart(bn.bayes$N34, main = "N34", xlab = c(N32.lv,N33.lv), ylab =c(N34.lv))
